@@ -1,0 +1,14 @@
+map_iter(map, function)
+	while x
+		whil y
+			function(map, x, y)
+
+is_walled(map, x, y)
+	if (y == 1 || x == 1 || x == map.row || y == map.col)
+		if (map[y][x] != '1')
+			error("map isn't walled");
+
+is_reachable(map, x, y)
+	if (y == 1 || x == 1 || x == map.row || y == map.col)
+		if (map[y][x] != '1')
+			error("map isn't walled");
