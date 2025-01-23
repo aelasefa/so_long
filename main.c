@@ -1,141 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 17:30:50 by ayelasef          #+#    #+#             */
+/*   Updated: 2025/01/20 17:56:32 by ayelasef         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-int	count_line(char *line)
+int	key_hook(int key, void *game_ptr)
 {
-	int	count;
-	int	i;
-	
-	i = 0;
-	count = 0;
-	while (line[i])
-	{
-		if (line[i] == '\n')
-			count++;
-		i++;
-	}
-	return (count);
+	t_game *game = (t_game *)game_ptr;
+	if (key == 97)
+		game->player_x--;			
+	if (key == 100)
+		game->player_x++;
+	if (key == 119)
+		game->player_y--;
+	if (key == 115)
+		game->player_y++;
+	render_game(game);
+return (0);
 }
-
-char **join_arr(char *line)
+void	ft_change_map_to_images(char **map, t_game game)
 {
-	char	**arr;
-	int		count;
-	int		i;
-	int		j;
-	int		index;
-
-	count = count_line(line);
-	arr = NULL;
-	arr = malloc(sizeof(char *) * count + 1);
-	if (!arr)
-		return (NULL);
-	i = 0;
-	j = 0;
-	index = 0;
-	while (line[i])
-	{
-		j = i;
-		while (line[i] != '\n' && line[i])
-			i++;
-		i++;
-		arr[index] = malloc(i - j + 1);
-		if (!arr[index])
-			return (NULL);
-		ft_strlcpy(arr[index++], line + j, i - j + 1);
-	}
-	arr[index] = NULL;
-	return (arr);
-}
-
-int	chaeck_rectangular(char **map)
-{
-	size_t	len;
-	size_t	len_last;
-	size_t len_y;
-	int		y;
-	int		i;
-	char	*last_line;
-
-	y = 0;
-	while (map[y])
-		y++;
-	y--;
-	len = ft_strlen(map[0]);
-	len_last = ft_strlen(map[y]);
-	if (len != len_last)
-		return (0);
-	i = 0;
-	while (map[i])
-	{
-		len_y = ft_strlen(map[i]);
-		if (ft_strlen(map[0]) != len_y)
-			return (0);
-		i++;
-	}
-	return(1);
-}
-
-int	check_one_component(char **map, char c)
-{
-	int	x;
-	int	y;
-	int	count;
-
-	y = 0;
-	count = 0;
+	int	x = 0;
+	int	y = 0;
+	int image_width, image_height;
+	int	pixel_x, pixel_y;
+	char *path_wall = "/home/ayelasef/Desktop/so_long/assets/wall.xpm";
+	char *path_player = "/home/ayelasef/Desktop/so_long/assets/player.xpm";
+	char *path_coin = "/home/ayelasef/Desktop/so_long/assets/coin.xpm";
+	char *path_emty_space = "/home/ayelasef/Desktop/so_long/assets/emty_space.xpm";
+	char *path_exit = "/home/ayelasef/Desktop/so_long/assets/exit.xpm";
+	game.image_wall = mlx_xpm_file_to_image(game.mlx_connection, path_wall, &image_width,&image_height);
+	game.image_player = mlx_xpm_file_to_image(game.mlx_connection, path_player,  &image_width,&image_height);
+	game.image_coin = mlx_xpm_file_to_image(game.mlx_connection, path_coin,  &image_width,&image_height);
+	game.image_emty_space = mlx_xpm_file_to_image(game.mlx_connection, path_emty_space,  &image_width,&image_height);
+	game.image_exit = mlx_xpm_file_to_image(game.mlx_connection, path_exit,  &image_width,&image_height);
 	while (map[y])
 	{
 		x = 0;
-		while (map[y][x] != '\0')
+		while (map[y][x])
 		{
-			if (map[y][x] == c)
-				count++;
+			pixel_x = x * 64;
+			pixel_y = y * 64;
+			if (map[y][x] == '1')
+				mlx_put_image_to_window(game.mlx_connection, game.mlx_window, game.image_wall, pixel_x, pixel_y);
+			else if (map[y][x] == 'P')
+				mlx_put_image_to_window(game.mlx_connection, game.mlx_window, game.image_player,  pixel_x, pixel_y);
+			else if (map[y][x] == 'C')
+				mlx_put_image_to_window(game.mlx_connection, game.mlx_window, game.image_coin,  pixel_x, pixel_y);
+			else if (map[y][x] == '0')
+				mlx_put_image_to_window(game.mlx_connection, game.mlx_window, game.image_emty_space,  pixel_x, pixel_y);
+			else if (map[y][x] == 'E')
+				mlx_put_image_to_window(game.mlx_connection, game.mlx_window, game.image_exit,  pixel_x, pixel_y);
+
 			x++;
 		}
 		y++;
 	}
-	return (count);
 }
 
-int	check_all_components(char **map)
+void render_game(t_game *game)
 {
-	if (check_one_component(map, 'E') != 1 || check_one_component(map, 'P') != 1 || check_one_component(map, 'C') == 0)
-		return (0);
-	return (1);
+    mlx_clear_window(game->mlx_connection, game->mlx_window);
+
+    mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player, game->player_x * 64, game->player_y * 64);
 }
 
-int	check_walls(char **map)
-{
-	int	x;
-	int	y;
-	int	last_of_line;
 
-	last_of_line = 0;
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		last_of_line = ft_strlen(map[y]) - 2;
-		if (map[y][x++] != '1' || map[y][last_of_line] != '1')
-			return (0);
-		while (map[y][x] != '\n')
-		{
-			if (map[0][x] != '1' )
-				return (0);
-			x++;
-		}
-		y++;
-	}
-	y--;
-	x = 0;
-	while(map[y][x] != '\n')
-	{
-		if (map[y][x] != '1')
-			return (0);
-		x++;
-	}
-	return (1);
-}
 
 int main() 
 {
@@ -146,6 +84,7 @@ int main()
 	char	*line_tmp = "";
 	int		i;
 	i = 0;
+	t_game	game;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -155,18 +94,16 @@ int main()
 		free(line);
 	}
 	map = join_arr(line_tmp);
-	for(int i = 0; i < 6; i++) printf("%s", map[i]);
 	if (!chaeck_rectangular(map) ||  !check_all_components(map) || !check_walls(map))
-		ft_printf("Invalide map");
-
-	/*void	*mlx_connection = mlx_init();
-	void *mlx_window = mlx_new_window(mlx_connection, 500, 500, "SO_LONG");
-	for (int i = 50; i < 500 - 50; i++)
 	{
-		for (int y = 0; y < 500 - 50; y++)
-		{
-			mlx_pixel_put(mlx_connection, mlx_window, i, y, 0xff0000);
-		}
+		ft_printf("Invalide map");
+		exit(1);
 	}
-	mlx_loop(mlx_connection);*/
+	//game.player_x = 1;
+	//game.player_y = 1;
+	game.mlx_connection = mlx_init();
+	game.mlx_window = mlx_new_window(game.mlx_connection, 3000, 3000, "SO_LONG");
+	//mlx_key_hook(game.mlx_window, key_hook, &game);
+	ft_change_map_to_images(map, game);
+	mlx_loop(game.mlx_connection);
 }

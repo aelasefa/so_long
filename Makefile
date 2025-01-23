@@ -1,6 +1,7 @@
 NAME := so_long
 
-SRC:= get_next_line.c get_next_line_utils.c main.c
+SRC:= get_next_line.c get_next_line_utils.c main.c check_map.c \
+	  creat_2d_array.c
 
 CC := cc #-g3 -fsanitize=address
 
