@@ -25,10 +25,11 @@ typedef struct s_game
 	void	*image_exit;
 	void	*image_emty_space;
 	void	*image_wall;
+	char	**map;
 }		t_game;
 //creat_2d_array
 char **join_arr(char *line);
-void	render_game(t_game *game);
+void	render_game(t_game *game, char **map);
 
 //check_map
 int	check_walls(char **map);
