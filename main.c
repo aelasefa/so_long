@@ -94,10 +94,9 @@ void	ft_change_map_to_images(char **map, t_game *game)
 	game->image_emty_space = mlx_xpm_file_to_image(game->mlx_connection, path_emty_space,  &image_width,&image_height);
 	game->image_exit = mlx_xpm_file_to_image(game->mlx_connection, path_exit,  &image_width,&image_height);
 
-	int coin_width, coin_height;
-	mlx_get_image_size(game->image_coin, &coin_width, &coin_height);
-	int	coin_cntr_x = (64 - coin_width) / 2;
-	int	coin_cntr_y = (64 - coin_height) / 2;
+	int	coin_cntr_x = (100 - image_width) / 2;
+	int	coin_cntr_y = (120 - image_height) / 2;
+	y = 0;
 	while (map[y])
 	{
 		x = 0;
