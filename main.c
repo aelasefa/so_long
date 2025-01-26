@@ -33,11 +33,11 @@ int	ft_total_coin(char **map)
 	}
 	return (count);
 }
+
 int	key_hook(int key, void *game_ptr, char **map)
 {
 	int	new_x, new_y;
 	t_game *game = (t_game *)game_ptr;
-	game->map[game->player_y][game->player_x] = '0';
 	new_x = game->player_x;
 	new_y = game->player_y;
 	if (key == 97)
@@ -57,7 +57,7 @@ int	key_hook(int key, void *game_ptr, char **map)
             game->coin_nbr++;
             game->map[new_y][new_x] = '0';
         }
-		if (game->map[new_y][new_x] == 'E')
+		else if (game->map[new_y][new_x] == 'E')
 		{
 			if (game->coin_nbr == game->total_coin)
 			{
@@ -65,8 +65,12 @@ int	key_hook(int key, void *game_ptr, char **map)
 				exit(0);
 			}
 			else
+			{
 				ft_printf("Collect all coins first!\n");
+				return (0);
+			}
 		}
+		game->map[game->player_y][game->player_x] = '0';
 		game->player_x = new_x;
 		game->player_y = new_y;
 	}
@@ -77,19 +81,23 @@ void	ft_change_map_to_images(char **map, t_game *game)
 {
 	int	x = 0;
 	int	y = 0;
-	int image_width, image_height;
 	int	pixel_x, pixel_y;
+	int image_width, image_height;
 	char *path_wall = "/home/ayelasef/Desktop/so_long/assets/wall.xpm";
 	char *path_player = "/home/ayelasef/Desktop/so_long/assets/player.xpm";
 	char *path_coin = "/home/ayelasef/Desktop/so_long/assets/coin.xpm";
 	char *path_emty_space = "/home/ayelasef/Desktop/so_long/assets/emty_space.xpm";
 	char *path_exit = "/home/ayelasef/Desktop/so_long/assets/exit.xpm";
-	void	*buffer = mlx_new_image(game->mlx_connection, game->map_width * 64, game->map_height * 64);
 	game->image_wall = mlx_xpm_file_to_image(game->mlx_connection, path_wall, &image_width,&image_height);
 	game->image_player = mlx_xpm_file_to_image(game->mlx_connection, path_player,  &image_width,&image_height);
 	game->image_coin = mlx_xpm_file_to_image(game->mlx_connection, path_coin,  &image_width,&image_height);
 	game->image_emty_space = mlx_xpm_file_to_image(game->mlx_connection, path_emty_space,  &image_width,&image_height);
 	game->image_exit = mlx_xpm_file_to_image(game->mlx_connection, path_exit,  &image_width,&image_height);
+
+	int coin_width, coin_height;
+	mlx_get_image_size(game->image_coin, &coin_width, &coin_height);
+	int	coin_cntr_x = (64 - coin_width) / 2;
+	int	coin_cntr_y = (64 - coin_height) / 2;
 	while (map[y])
 	{
 		x = 0;
@@ -97,33 +105,31 @@ void	ft_change_map_to_images(char **map, t_game *game)
 		{
 			pixel_x = x * 64;
 			pixel_y = y * 64;
-			mlx_put_image_to_window(game->mlx_connection, buffer, game->image_emty_space, pixel_x, pixel_y);
+			mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_emty_space, pixel_x, pixel_y);
 			if (map[y][x] == '1')
-				mlx_put_image_to_window(game->mlx_connection, buffer, game->image_wall, pixel_x, pixel_y);
+				mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_wall, pixel_x, pixel_y);
 			else if (map[y][x] == 'P')
 			{
 				game->player_x = x;
 				game->player_y = y;
-				mlx_put_image_to_window(game->mlx_connection, buffer, game->image_player,  pixel_x, pixel_y);
+				mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player,  pixel_x, pixel_y);
 			}
 			else if (map[y][x] == 'C')
-				mlx_put_image_to_window(game->mlx_connection, buffer, game->image_coin,  pixel_x, pixel_y);
+				mlx_put_image_to_window(game->mlx_connection,game->mlx_window, game->image_coin,  pixel_x + coin_cntr_x, pixel_y + coin_cntr_y);
 			else if (map[y][x] == 'E')
-				mlx_put_image_to_window(game->mlx_connection, buffer, game->image_exit,  pixel_x, pixel_y);
+				mlx_put_image_to_window(game->mlx_connection,game->mlx_window , game->image_exit,  pixel_x, pixel_y);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(game->mlx_connection, buffer, game->image_player, game->player_x * 64, game->player_y * 64);
-	mlx_put_image_to_window(game->mlx_connection, game->mlx_window, buffer, 0, 0);
-	mlx_destroy_image(game->mlx_connection, buffer);
+	mlx_put_image_to_window(game->mlx_connection,game->mlx_window, game->image_player, game->player_x * 64 ,game->player_y * 64);
 }
 
 void render_game(t_game *game)
 {
     mlx_clear_window(game->mlx_connection, game->mlx_window);
 	ft_change_map_to_images(game->map, game);
-    mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player, game->player_x * 64, game->player_y * 64);
+ //   mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player, game->player_x * 64, game->player_y * 64);
 }
 
 int main() 
