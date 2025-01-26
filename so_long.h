@@ -20,6 +20,10 @@ typedef struct s_game
 	void *mlx_window;
 	int	player_x;
 	int	player_y;
+	int	coin_nbr;
+	int	total_coin;
+	int	map_width;
+	int	map_height;
 	void	*image_player;
 	void	*image_coin;
 	void	*image_exit;
@@ -29,7 +33,7 @@ typedef struct s_game
 }		t_game;
 //creat_2d_array
 char **join_arr(char *line);
-void	render_game(t_game *game, char **map);
+void	render_game(t_game *game);
 
 //check_map
 int	check_walls(char **map);
