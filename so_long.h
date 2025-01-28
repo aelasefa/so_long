@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:51:54 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/01/20 17:36:15 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:45:48 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,24 @@ typedef struct s_game
 	int	total_coin;
 	int	map_width;
 	int	map_height;
+	int	moves;
+	int	enemy_x;
+	int	enemy_y;
 	void	*image_player;
 	void	*image_coin;
 	void	*image_exit;
 	void	*image_emty_space;
 	void	*image_wall;
+	void	*image_enemy;
+	void	*image_exit_player;
 	char	**map;
 }		t_game;
 //creat_2d_array
 char **join_arr(char *line);
 void	render_game(t_game *game);
+void	ft_change_map_to_images(char **map, t_game *game);
+//ft_itoa
+char	*ft_itoa(int n);
 
 //check_map
 int	check_walls(char **map);
