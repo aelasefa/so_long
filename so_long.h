@@ -27,6 +27,7 @@ typedef struct s_game
 	int	moves;
 	int	enemy_x;
 	int	enemy_y;
+	int	frame_count;
 	void	*image_player;
 	void	*image_coin;
 	void	*image_exit;
