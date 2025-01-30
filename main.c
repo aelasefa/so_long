@@ -6,23 +6,58 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:30:50 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:04 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:09:50 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void animate_coin(t_game *game, int x, int y)
+void	image_coin(t_game *window)
 {
-    char *coin_paths[] = {
-        "/home/ayelasef/Desktop/so_long/assets/coin_1_.xpm",
-        "/home/ayelasef/Desktop/so_long/assets/coin_2_.xpm",
-        "/home/ayelasef/Desktop/so_long/assets/coin_3_.xpm"
-    };
-    int img_w, img_h;
-    game->image_coin = mlx_xpm_file_to_image(game->mlx_connection, coin_paths[game->frame_count % 3], &img_w, &img_h);
-    mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_coin, x * 64, y * 64);
+	window->coin_frames[0] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin1.xpm",&window->img_width,
+				&window->img_height);
+window->coin_frames[1] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin2.xpm",&window->img_width,
+			&window->img_height);
+window->coin_frames[2] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin3.xpm",&window->img_width,
+			&window->img_height);
 }
+
+void	animation_coins_ul(t_game *window)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (window->map[i])
+	{
+		j = 0;
+		while (window->map[i][j])
+		{
+			if (window->map[i][j] == 'C')
+			{
+				mlx_put_image_to_window(window->mlx_connection, window->mlx_window,window->coin_frames[window->count_frames],
+					j * 64, i * 64);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int	animation_coins(t_game *window)
+{
+	if(window->count_frames % 100 == 0)
+	{
+		window->count_frames++;// = (window->count_frames + 1) % 3;
+		animation_coins_ul(window);
+	}
+	return (0);
+}
+
+
 
 int	ft_total_coin(char **map)
 {
@@ -85,11 +120,6 @@ int	key_hook(int key, void *game_ptr, char **map)
 	{
 		if (game->map[new_y][new_x] == 'C')
         {
-			int	img_w, img_h;
-			char *coin = "/home/ayelasef/Desktop/so_long/assets/coin_1_.xpm";
-			void *img_coin = mlx_xpm_file_to_image(game->mlx_connection, coin, &img_w, &img_h);
-            mlx_put_image_to_window(game->mlx_connection, game->mlx_window, img_coin, new_x * 64, new_y * 64);
-            usleep(100000);
             game->coin_nbr++;
             game->map[new_y][new_x] = '0';
         }
@@ -113,59 +143,6 @@ int	key_hook(int key, void *game_ptr, char **map)
 	game->moves++;
 	render_game(game);
 	return (0);
-}
-
-void	ft_change_map_to_images(char **map, t_game *game)
-{
-	int	x = 0;
-	int	y = 0;
-	int	pixel_x, pixel_y;
-	int image_width, image_height;
-	char *path_wall = "/home/ayelasef/Desktop/so_long/assets/wall.xpm";
-	char *path_player = "/home/ayelasef/Desktop/so_long/assets/player1.xpm";
-	char *path_coin1 = "/home/ayelasef/Desktop/so_long/assets/coin1.xpm";
-	char *path_emty_space = "/home/ayelasef/Desktop/so_long/assets/emty_space.xpm";
-	char *path_exit = "/home/ayelasef/Desktop/so_long/assets/exit1.xpm";
-	char *path_enemy = "/home/ayelasef/Desktop/so_long/assets/enmy.xpm";
-	game->image_wall = mlx_xpm_file_to_image(game->mlx_connection, path_wall, &image_width,&image_height);
-	game->image_player = mlx_xpm_file_to_image(game->mlx_connection, path_player,  &image_width,&image_height);
-	game->image_coin = mlx_xpm_file_to_image(game->mlx_connection, path_coin1,  &image_width,&image_height);
-	game->image_emty_space = mlx_xpm_file_to_image(game->mlx_connection, path_emty_space,  &image_width,&image_height);
-	game->image_exit = mlx_xpm_file_to_image(game->mlx_connection, path_exit,  &image_width,&image_height);
-	game->image_enemy = mlx_xpm_file_to_image(game->mlx_connection, path_enemy,  &image_width,&image_height);
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			pixel_x = x * 64;
-			pixel_y = y * 64;
-			mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_emty_space, pixel_x, pixel_y);
-			if (map[y][x] == '1')
-				mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_wall, pixel_x, pixel_y);
-			else if (map[y][x] == 'P')
-			{
-				game->player_x = x;
-				game->player_y = y;
-				mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player,  pixel_x, pixel_y);
-				
-			}
-			else if (map[y][x] == 'C')
-			{
-				animate_coin(game, pixel_x, pixel_y);
-			//	mlx_put_image_to_window(game->mlx_connection,game->mlx_window, game->image_coin,  pixel_x, pixel_y);
-			}
-			else if (map[y][x] == 'E' && game->coin_nbr == game->total_coin)
-			{
-				mlx_put_image_to_window(game->mlx_connection,game->mlx_window , game->image_exit,  pixel_x, pixel_y);
-			}
-			x++;
-		}
-		y++;
-	}
-	game->frame_count++;
-        mlx_put_image_to_window(game->mlx_connection, game->mlx_window,game->image_enemy, game->enemy_x * 64, game->enemy_y * 64);
 }
 
 void render_game(t_game *game)
@@ -213,12 +190,14 @@ int main()
 	game.map = map;
 	game.coin_nbr = 0;
 	game.moves = 0;
-	game.frame_count = 0;
+//	game.frame_count = 0;
 	game.total_coin = ft_total_coin(map);
 	game.mlx_connection = mlx_init();
 	game.mlx_window = mlx_new_window(game.mlx_connection, map_width * 64, map_height * 64, "SO_LONG");
 	place_enemy_center(&game);
+//	image_coin(&game);
 	ft_change_map_to_images(map, &game);
+	mlx_loop_hook(game.mlx_connection, animation_coins, &game);
 	mlx_key_hook(game.mlx_window, key_hook, &game);
 	mlx_loop(game.mlx_connection);
 }
