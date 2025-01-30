@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:26:18 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/01/30 10:27:19 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:06:10 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_change_map_to_images(char **map, t_game *game)
 	int image_width, image_height;
 	char *path_wall = "/home/ayelasef/Desktop/so_long/assets/wall.xpm";
 	char *path_player = "/home/ayelasef/Desktop/so_long/assets/player1.xpm";
-	char *path_coin1 = "/home/ayelasef/Desktop/so_long/assets/coin5.xpm";
+	char *path_coin1 = "/home/ayelasef/Desktop/so_long/assets/coin1.xpm";
 	char *path_emty_space = "/home/ayelasef/Desktop/so_long/assets/emty_space.xpm";
 	char *path_exit = "/home/ayelasef/Desktop/so_long/assets/exit1.xpm";
 	char *path_enemy = "/home/ayelasef/Desktop/so_long/assets/enmy.xpm";
@@ -30,6 +30,18 @@ void	ft_change_map_to_images(char **map, t_game *game)
 	game->image_emty_space = mlx_xpm_file_to_image(game->mlx_connection, path_emty_space,  &image_width,&image_height);
 	game->image_exit = mlx_xpm_file_to_image(game->mlx_connection, path_exit,  &image_width,&image_height);
 	game->image_enemy = mlx_xpm_file_to_image(game->mlx_connection, path_enemy,  &image_width,&image_height);
+	game->coin_frames[0] = mlx_xpm_file_to_image(game->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin1.xpm", &image_width, &image_height);
+game->coin_frames[1] = mlx_xpm_file_to_image(game->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin2.xpm", &image_width, &image_height);
+game->coin_frames[2] = mlx_xpm_file_to_image(game->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin3.xpm", &image_width, &image_height);
+game->coin_frames[3] = mlx_xpm_file_to_image(game->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin4.xpm", &image_width, &image_height);
+game->coin_frames[4] = mlx_xpm_file_to_image(game->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin5.xpm", &image_width, &image_height);
+
+
 	y = 0;
 	while (map[y])
 	{
@@ -48,11 +60,12 @@ void	ft_change_map_to_images(char **map, t_game *game)
 				mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player,  pixel_x, pixel_y);
 				
 			}
-			else if (map[y][x] == 'C')
+			/*else if (map[y][x] == 'C')
+			
 			{
-				animation_coins(game);
-				//mlx_put_image_to_window(game->mlx_connection,game->mlx_window, game->image_coin,  pixel_x, pixel_y);
-			}
+				//animation_coins(game);
+				mlx_put_image_to_window(game->mlx_connection,game->mlx_window, game->image_coin,  pixel_x, pixel_y);
+			}*/
 			else if (map[y][x] == 'E' && game->coin_nbr == game->total_coin)
 			{
 				mlx_put_image_to_window(game->mlx_connection,game->mlx_window , game->image_exit,  pixel_x, pixel_y);

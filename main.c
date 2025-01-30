@@ -6,58 +6,11 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:30:50 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/01/30 11:09:50 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:05:55 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	image_coin(t_game *window)
-{
-	window->coin_frames[0] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin1.xpm",&window->img_width,
-				&window->img_height);
-window->coin_frames[1] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin2.xpm",&window->img_width,
-			&window->img_height);
-window->coin_frames[2] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin3.xpm",&window->img_width,
-			&window->img_height);
-}
-
-void	animation_coins_ul(t_game *window)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (window->map[i])
-	{
-		j = 0;
-		while (window->map[i][j])
-		{
-			if (window->map[i][j] == 'C')
-			{
-				mlx_put_image_to_window(window->mlx_connection, window->mlx_window,window->coin_frames[window->count_frames],
-					j * 64, i * 64);
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-int	animation_coins(t_game *window)
-{
-	if(window->count_frames % 100 == 0)
-	{
-		window->count_frames++;// = (window->count_frames + 1) % 3;
-		animation_coins_ul(window);
-	}
-	return (0);
-}
-
-
 
 int	ft_total_coin(char **map)
 {
@@ -95,7 +48,6 @@ void place_enemy_center(t_game *game)
         else
             break;
     }
-
     game->enemy_x = center_x;
     game->enemy_y = center_y;
 }
@@ -153,6 +105,64 @@ void render_game(t_game *game)
 	ft_printf("%d\n", game->moves);
 }
 
+void	image_coin(t_game *window)
+{
+	window->coin_frames[0] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin1.xpm",&window->img_width,
+				&window->img_height);
+
+window->coin_frames[1] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin2.xpm",&window->img_width,
+			&window->img_height);
+window->coin_frames[2] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin3.xpm",&window->img_width,
+			&window->img_height);
+window->coin_frames[3] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin4.xpm",&window->img_width,
+			&window->img_height);
+window->coin_frames[4] = mlx_xpm_file_to_image(window->mlx_connection,
+		 "/home/ayelasef/Desktop/so_long/assets/coin5.xpm",&window->img_width,
+			&window->img_height);
+
+
+}
+void	animation_coins_ul(t_game *window)
+{
+	int	i;
+	int	j;
+
+	if(window->count_frames % 100 == 0)
+	{
+		window->curr_frames = (window->curr_frames + 1) % 5;
+	}
+	i = 0;
+	while (window->map[i])
+	{
+
+		j = 0;
+		while (window->map[i][j])
+		{
+			if (window->map[i][j] == 'C')
+			{
+				mlx_put_image_to_window(window->mlx_connection, window->mlx_window,window->coin_frames[window->curr_frames],
+					j * 64 + 12, i * 64 + 12);
+				usleep(10000);
+
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+
+int game_loop(t_game *game)
+{
+	animation_coins_ul(game);
+	game->curr_frames++;
+	return (0);
+}
+
 int main() 
 {
 	int		fd;
@@ -190,14 +200,12 @@ int main()
 	game.map = map;
 	game.coin_nbr = 0;
 	game.moves = 0;
-//	game.frame_count = 0;
 	game.total_coin = ft_total_coin(map);
 	game.mlx_connection = mlx_init();
 	game.mlx_window = mlx_new_window(game.mlx_connection, map_width * 64, map_height * 64, "SO_LONG");
 	place_enemy_center(&game);
-//	image_coin(&game);
+	mlx_loop_hook(game.mlx_connection, game_loop, &game);
 	ft_change_map_to_images(map, &game);
-	mlx_loop_hook(game.mlx_connection, animation_coins, &game);
 	mlx_key_hook(game.mlx_window, key_hook, &game);
 	mlx_loop(game.mlx_connection);
 }
