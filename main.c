@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:30:50 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/01/30 12:05:55 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:07:09 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,36 +105,14 @@ void render_game(t_game *game)
 	ft_printf("%d\n", game->moves);
 }
 
-void	image_coin(t_game *window)
-{
-	window->coin_frames[0] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin1.xpm",&window->img_width,
-				&window->img_height);
-
-window->coin_frames[1] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin2.xpm",&window->img_width,
-			&window->img_height);
-window->coin_frames[2] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin3.xpm",&window->img_width,
-			&window->img_height);
-window->coin_frames[3] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin4.xpm",&window->img_width,
-			&window->img_height);
-window->coin_frames[4] = mlx_xpm_file_to_image(window->mlx_connection,
-		 "/home/ayelasef/Desktop/so_long/assets/coin5.xpm",&window->img_width,
-			&window->img_height);
-
-
-}
 void	animation_coins_ul(t_game *window)
 {
 	int	i;
+	static int count = 0;
 	int	j;
-
-	if(window->count_frames % 100 == 0)
+	if(count % 3000 == 0)
 	{
 		window->curr_frames = (window->curr_frames + 1) % 5;
-	}
 	i = 0;
 	while (window->map[i])
 	{
@@ -146,20 +124,20 @@ void	animation_coins_ul(t_game *window)
 			{
 				mlx_put_image_to_window(window->mlx_connection, window->mlx_window,window->coin_frames[window->curr_frames],
 					j * 64 + 12, i * 64 + 12);
-				usleep(10000);
 
 			}
 			j++;
 		}
 		i++;
 	}
+	}
+	count++;
 }
 
 
 int game_loop(t_game *game)
 {
 	animation_coins_ul(game);
-	game->curr_frames++;
 	return (0);
 }
 
