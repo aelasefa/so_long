@@ -6,51 +6,11 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:30:50 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/01 18:07:09 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:14:18 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-int	ft_total_coin(char **map)
-{
-	int	y;
-	int	x;
-	int	count;
-
-	count = 0;
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == 'C')
-				count++;
-			x++;
-		}
-		y++;
-	}
-	return (count);
-}
-
-void place_enemy_center(t_game *game)
-{
-    int center_x = game->map_width / 2;
-    int center_y = game->map_height / 2;
-
-    while (game->map[center_y][center_x] != '0' && game->map[center_y][center_x] != 'E')
-    {
-        if (center_x > 0)
-            center_x--;
-        else if (center_y > 0)
-            center_y--;
-        else
-            break;
-    }
-    game->enemy_x = center_x;
-    game->enemy_y = center_y;
-}
 
 int	key_hook(int key, void *game_ptr, char **map)
 {
@@ -58,13 +18,13 @@ int	key_hook(int key, void *game_ptr, char **map)
 	t_game *game = (t_game *)game_ptr;
 	new_x = game->player_x;
 	new_y = game->player_y;
-	if (key == 97)
+	if (key == 97 || key == 65361)
 		new_x--;			
-	if (key == 100)
+	if (key == 100 || key == 65363)
 		new_x++;
-	if (key == 119)
+	if (key == 119 || key == 65362)
 		new_y--;
-	if (key == 115)
+	if (key == 115 || key == 65364)
 		new_y++;
 	else if (key == 65307)
 		exit(0);
@@ -88,7 +48,8 @@ int	key_hook(int key, void *game_ptr, char **map)
 				exit(0);
 			}
 		}
-		game->map[game->player_y][game->player_x] = '0';
+		if (game->map[game->player_y][game->player_x] != 'E')
+			game->map[game->player_y][game->player_x] = '0';
 		game->player_x = new_x;
 		game->player_y = new_y;
 	}
@@ -100,51 +61,22 @@ int	key_hook(int key, void *game_ptr, char **map)
 void render_game(t_game *game)
 {
 	ft_change_map_to_images(game->map, game);
-   mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player, game->player_x * 64, game->player_y * 64);
-	mlx_string_put(game->mlx_connection, game->mlx_window, game->map_height / 2, game->map_width / 2, 0xFFFFFFF, ft_itoa(game->moves));
+	mlx_put_image_to_window(game->mlx_connection, game->mlx_window, game->image_player, game->player_x * 64, game->player_y * 64);
+	mlx_string_put(game->mlx_connection, game->mlx_window, game->map_height / 2 * 10, game->map_width / 2 * 10, 0xFFFFFFF, ft_itoa(game->moves));
 	ft_printf("%d\n", game->moves);
 }
 
-void	animation_coins_ul(t_game *window)
-{
-	int	i;
-	static int count = 0;
-	int	j;
-	if(count % 3000 == 0)
-	{
-		window->curr_frames = (window->curr_frames + 1) % 5;
-	i = 0;
-	while (window->map[i])
-	{
-
-		j = 0;
-		while (window->map[i][j])
-		{
-			if (window->map[i][j] == 'C')
-			{
-				mlx_put_image_to_window(window->mlx_connection, window->mlx_window,window->coin_frames[window->curr_frames],
-					j * 64 + 12, i * 64 + 12);
-
-			}
-			j++;
-		}
-		i++;
-	}
-	}
-	count++;
-}
 
 
-int game_loop(t_game *game)
-{
-	animation_coins_ul(game);
-	return (0);
-}
-
-int main() 
+int main(int ac, char **av) 
 {
 	int		fd;
-	fd = open("map.ber", O_RDONLY);
+	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("Error: Cannot open file %s\n", av[1]);
+        exit(1);
+	}
 	char	*line = NULL;
 	char	**map = NULL;
 	char	*line_tmp = "";
@@ -153,6 +85,11 @@ int main()
 	int		map_height;
 	i = 0;
 	t_game	game;
+	if (ac != 2)
+	{
+		ft_printf("Usage: %s <map_file.ber>\n", av[0]);
+		exit(1);
+	}
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -168,7 +105,7 @@ int main()
 		exit(1);
 	}
 	map_width = 0;
-	while (map[0][map_width])
+	while (map[0][map_width] != '\n')
 		map_width++;
 	map_height = 0;
 	while (map[map_height])
