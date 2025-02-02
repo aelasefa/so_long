@@ -30,15 +30,32 @@ void	initialize_game(t_game *game, char **map, int map_width, int map_height)
 	mlx_loop(game->mlx_connection);
 }
 
+char	**ft_read_map(int fd)
+{
+	char	**map;
+	char	*line_tmp;
+	char	*line;
+
+	line_tmp = "";
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		line_tmp = ft_strjoin_get_line(line_tmp, line);
+		free(line);
+	}
+	map = join_arr(line_tmp);
+	return (map);
+}
+
 int	main(int ac, char **av)
 {
-	char	*line;
-	char	*line_tmp;
 	char	**map;
 	t_game	game;
 	char	**map_copy;
 
-	int (map_width), (map_height), (fd);
+	int(map_width), (map_height), (fd);
 	if (ac != 2)
 	{
 		ft_printf("Usage: %s <map_file.ber>\n", av[0]);
@@ -50,16 +67,7 @@ int	main(int ac, char **av)
 		ft_printf("Error: Cannot open file %s\n", av[1]);
 		exit(1);
 	}
-	line_tmp = "";
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		line_tmp = ft_strjoin_get_line(line_tmp, line);
-		free(line);
-	}
-	map = join_arr(line_tmp);
+	map = ft_read_map(fd);
 	map_width = 0;
 	map_height = 0;
 	while (map[map_height])
