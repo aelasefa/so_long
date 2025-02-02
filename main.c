@@ -79,7 +79,7 @@ int	main(int ac, char **av)
 		map_height++;
 	map_width = ft_strlen(map[0]) - 1;
 	if (!chaeck_rectangular(map) || !check_all_components(map)
-		|| !check_walls(map) || !is_map_valid(map, map_width, map_height))
+		|| !check_walls(map) || !is_map_valid(&game,map, map_width, map_height))
 	{
 		ft_printf("Invalid map\n");
 		exit(1);
