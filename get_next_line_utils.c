@@ -43,8 +43,8 @@ char	*ft_strchr(char *s, int c)
 
 char	*ft_strjoin_get_line(char *s1, char *s2)
 {
-	char*(arr);
-	int (i), (j);
+	char *(arr);
+	int(i), (j);
 	if (!s2)
 		return (NULL);
 	if (!s1)
