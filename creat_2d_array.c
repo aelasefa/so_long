@@ -16,7 +16,7 @@ static int	count_line(char *line)
 {
 	int	count;
 	int	i;
-	
+
 	i = 0;
 	count = 0;
 	while (line[i])
@@ -28,7 +28,7 @@ static int	count_line(char *line)
 	return (count);
 }
 
-char **join_arr(char *line)
+char	**join_arr(char *line)
 {
 	char	**arr;
 	int		count;
@@ -58,5 +58,3 @@ char **join_arr(char *line)
 	arr[index] = NULL;
 	return (arr);
 }
-
-
