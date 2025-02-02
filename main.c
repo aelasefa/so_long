@@ -49,18 +49,23 @@ char	**ft_read_map(int fd)
 	return (map);
 }
 
+void	check_ac(int ac, char **av)
+{
+	if (ac != 2)
+	{
+		ft_printf("Usage: %s <map_file.ber>\n", av[0]);
+		exit(1);
+	}
+}
+
 int	main(int ac, char **av)
 {
 	char	**map;
 	t_game	game;
 	char	**map_copy;
 
-	int(map_width), (map_height), (fd);
-	if (ac != 2)
-	{
-		ft_printf("Usage: %s <map_file.ber>\n", av[0]);
-		exit(1);
-	}
+	int (map_width), (map_height), (fd);
+	check_ac(ac, av);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
@@ -72,8 +77,7 @@ int	main(int ac, char **av)
 	map_height = 0;
 	while (map[map_height])
 		map_height++;
-	while (map[0][map_width] != '\n')
-		map_width++;
+	map_width = ft_strlen(map[0]) - 1;
 	if (!chaeck_rectangular(map) || !check_all_components(map)
 		|| !check_walls(map) || !is_map_valid(map, map_width, map_height))
 	{
