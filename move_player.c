@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:31:23 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/03 21:52:22 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:25:33 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_move_player(t_game *game, int key, int *new_x, int *new_y)
 		(*new_y)--;
 	if (key == 115 || key == 65364)
 		(*new_y)++;
-	if (key == 65307)
+	else if (key == 65307)
 	{
 		free_game_resources(game);
 		exit(0);
@@ -47,7 +47,7 @@ void	ft_collect_coins(t_game *game, int *new_x, int *new_y)
 	}
 }
 
-int close_window(t_game *game)
+int	close_window(t_game *game)
 {
 	free_game_resources(game);
 	exit(0);
@@ -74,11 +74,10 @@ int	key_hook(int key, void *game_ptr, char **map)
 		}
 		if (game->map[game->player_y][game->player_x] != 'E')
 			game->map[game->player_y][game->player_x] = '0';
-		
 		game->player_x = new_x;
 		game->player_y = new_y;
-		game->moves++;
-		ft_printf("%d\n", game->moves);
+		if (check_key(key))
+			increment_and_print_move(game);
 	}
 	render_game(game);
 	return (0);
@@ -91,8 +90,8 @@ void	render_game(t_game *game)
 	ft_change_map_to_images(game->map, game);
 	mlx_put_image_to_window(game->mlx_connection, game->mlx_window,
 		game->image_player, game->player_x * 64, game->player_y * 64);
-		tmp = ft_itoa(game->moves);
-		mlx_string_put(game->mlx_connection, game->mlx_window, game->map_height / 2
-			* 10, game->map_width / 2 * 10, 0xFFFFFFF, tmp);
-		free(tmp);
+	tmp = ft_itoa(game->moves);
+	mlx_string_put(game->mlx_connection, game->mlx_window, game->map_height / 2
+		* 10, game->map_width / 2 * 10, 0xFFFFFFF, tmp);
+	free(tmp);
 }
