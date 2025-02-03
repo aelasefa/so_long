@@ -1,7 +1,7 @@
 
 NAME:= libft.a
 
-SRCS := ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c ft_strlen.c
+SRCS := ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c ft_strlen.c ft_strlcpy.c
 
 OBJS := $(SRCS:.c=.o)
 

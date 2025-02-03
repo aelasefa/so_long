@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayelasef <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 10:25:30 by ayelasef          #+#    #+#             */
-/*   Updated: 2024/11/05 18:13:08 by ayelasef         ###   ########.fr       */
+/*   Created: 2024/11/12 19:04:39 by ayelasef          #+#    #+#             */
+/*   Updated: 2025/02/03 17:08:10 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <stdlib.h>
-# include <unistd.h>
-# include <stddef.h>
+#ifndef FT_PRINTF_H
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
-size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
+# define FT_PRINTF_H
+# include "libft/libft.h"
+# include <stdio.h>
+# include <stdarg.h>
+
+int	ft_printf(const char *format, ...);
+int	print_int(int nb);
+int	print_string(char *s);
+int	print_char(char c);
+int	print_unsigned(unsigned int nb);
+int	print_hex(unsigned long nb, char *hex);
+int	print_add(void *n, char *hex);
 #endif
