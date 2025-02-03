@@ -17,10 +17,9 @@ int	chaeck_rectangular(char **map)
 	size_t	len;
 	size_t	len_last;
 	size_t	len_y;
-	int		y;
-	int		i;
 	char	*last_line;
 
+	int (y), (i);
 	y = 0;
 	while (map[y])
 		y++;
@@ -70,6 +69,12 @@ int	check_all_components(char **map)
 	return (1);
 }
 
+void	help_function(int *y, int *x)
+{
+	*y = *y - 1;
+	*x = 0;
+}
+
 int	check_walls(char **map)
 {
 	int x, (y), (last_of_line);
@@ -89,8 +94,7 @@ int	check_walls(char **map)
 		}
 		y++;
 	}
-	y--;
-	x = 0;
+	help_function(&y, &x);
 	while (map[y][x] != '\n')
 	{
 		if (map[y][x] != '1')
@@ -98,44 +102,4 @@ int	check_walls(char **map)
 		x++;
 	}
 	return (1);
-}
-
-int	is_map_valid(char **map, int width, int height)
-{
-	int		x;
-	int		y;
-	int		player_x;
-	int		player_y;
-	int		total_coins;
-	int		collected_coins;
-	int		exit_found;
-	char	**map_copy;
-
-	player_x = -1;
-	player_y = -1;
-	total_coins = 0;
-	collected_coins = 0;
-	exit_found = 0;
-	y = 0;
-	while (y < height)
-	{
-		x = 0;
-		while (x < width)
-		{
-			if (map[y][x] == 'P')
-			{
-				player_x = x;
-				player_y = y;
-			}
-			if (map[y][x] == 'C')
-				total_coins++;
-			x++;
-		}
-		y++;
-	}
-	if (player_x == -1 || player_y == -1)
-		return (0);
-	map_copy = ft_map_copy(map, height);
-	flood_fill(map_copy, player_x, player_y, &exit_found, &collected_coins);
-	return (collected_coins == total_coins && exit_found);
 }
