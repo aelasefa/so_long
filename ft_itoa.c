@@ -80,5 +80,3 @@ char	*ft_itoa(int n)
 	arr[i] = '\0';
 	return (ft_rev(arr));
 }
-
-
