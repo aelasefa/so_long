@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:51:54 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/02 12:33:51 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:24:20 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@ typedef struct s_game
 	void	*image_emty_space;
 	void	*image_wall;
 	void	*image_enemy;
-	void	*image_exit_player;
 	char	**map;
 	char	**map_copy;
 	int		exit_found;
+	int		player_x_f;
+	int		player_y_f;
+	int		total_coins_f;
+	int		check_move;
 }			t_game;
 // creat_2d_array
 char		**join_arr(char *line);
@@ -73,9 +76,22 @@ void		place_enemy_center(t_game *game);
 char		**ft_map_copy(t_game *game, char **map, int y);
 int			is_map_valid(t_game *game, char **map, int width, int height);
 void		flood_fill(t_game *game, int x, int y);
+void		check_player_and_coin(t_game *game, int width, int height);
 
 // move_player
-void		ft_move_player(int key, int *new_x, int *new_y);
+void		ft_move_player(t_game *game, int key, int *new_x, int *new_y);
 void		ft_collect_coins(t_game *game, int *new_x, int *new_y);
 int			key_hook(int key, void *game_ptr, char **map);
 void		render_game(t_game *game);
+int			close_window(t_game *game);
+
+// free_map_or_game
+void		free_game_resources(t_game *game);
+void		free_map(char **map);
+void		file_to_image(t_game *game, int image_width, int image_height);
+
+// draw_player_and_exit
+void		draw_player(t_game *game, int x, int y);
+void		draw_exit(t_game *game, int x, int y);
+int			check_key(int key);
+void		increment_and_print_move(t_game *game);
