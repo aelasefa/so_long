@@ -16,33 +16,33 @@ char	**ft_map_copy(t_game *game,char **map, int y)
 {
 	int		i;
 
-	game->map_copy = NULL;
-	game->map_copy = malloc(sizeof(char *) * y + 1);
+	game->map_copy = malloc(sizeof(char *) * (y + 1));
+	if (!game->map_copy)
+		return (NULL);
 	i = 0;
-	while (map[i])
+	while (game->map[i])
 	{
-		game->map_copy[i] = strdup(map[i]);
+		game->map_copy[i] = strdup(game->map[i]);
 		i++;
 	}
 	game->map_copy[i] = NULL;
 	return (game->map_copy);
 }
 
-void	flood_fill(t_game *game, char **map, int x, int y)
+void	flood_fill(t_game *game, int x, int y)
 {
-	game->exit_found = 0;
-	if (map || map[y] || map[y][x] 
-		|| map[y][x] == '1' || map[y][x] == 'V')
+	if (!game->map_copy || !game->map_copy[y] || !game->map_copy[y][x] 
+		|| game->map_copy[y][x] == '1' || game->map_copy[y][x] == 'V')
 		return ;
-	if (map[y][x] == 'E')
+	if (game->map_copy[y][x] == 'E')
 		game->exit_found = 1;
-	if (map[y][x] == 'C')
+	if (game->map_copy[y][x] == 'C')
 		game->collected_coins++;
-	game->map[y][x] = 'V';
-	flood_fill(game,map, x - 1, y);
-	flood_fill(game,map, x + 1, y);
-	flood_fill(game, map, x, y - 1);
-	flood_fill(game,map, x, y + 1);
+	game->map_copy[y][x] = 'V';
+	flood_fill(game, x - 1, y);
+	flood_fill(game, x + 1, y);
+	flood_fill(game, x, y - 1);
+	flood_fill(game, x, y + 1);
 }
 
 int	is_map_valid(t_game *game,char **map, int width, int height)
@@ -53,8 +53,6 @@ int	is_map_valid(t_game *game,char **map, int width, int height)
 	player_x = -1;
 	player_y = -1;
 	total_coins = 0;
-	game->collected_coins = 0;
-	game->exit_found = 0;
 	y = 0;
 	while (y < height)
 	{
@@ -74,8 +72,9 @@ int	is_map_valid(t_game *game,char **map, int width, int height)
 	}
 	if (player_x == -1 || player_y == -1)
 		return (0);
-	
+	game->collected_coins = 0;
+	game->exit_found = 0;
 	game->map_copy = ft_map_copy(game, map, height);
-	flood_fill(game,game->map_copy,  player_x, player_y);
+	flood_fill(game, player_x, player_y);
 	return (game->collected_coins == total_coins && game->exit_found);
 }
