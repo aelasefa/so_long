@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:31:24 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/01/20 17:32:24 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:56:14 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,12 @@ static int	count_line(char *line)
 
 char	**join_arr(char *line)
 {
-	char	**arr;
-	int		count;
-	int		i;
-	int		j;
-	int		index;
+	char	(**arr);
 
+	int (i), (j), (index), count;
 	count = count_line(line);
 	arr = NULL;
-	arr = malloc(sizeof(char *) * count + 1);
+	arr = malloc(sizeof(char *) * (count + 1));
 	if (!arr)
 		return (NULL);
 	i = 0;
@@ -53,8 +50,9 @@ char	**join_arr(char *line)
 		arr[index] = malloc(i - j + 1);
 		if (!arr[index])
 			return (NULL);
-		ft_strlcpy(arr[index++], line + j, i - j + 1);
+		ft_strlcpy(arr[index], line + j, i - j + 1);
+		arr[index][i - j] = '\0';
+		index++;
 	}
-	arr[index] = NULL;
-	return (arr);
+	return (arr[index] = NULL, free(line), arr);
 }
