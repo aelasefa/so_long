@@ -79,5 +79,7 @@ int	is_map_valid(t_game *game, char **map, int width, int height)
 	game->exit_found = 0;
 	game->map_copy = ft_map_copy(game, map, height);
 	flood_fill(game, game->player_x_f, game->player_y_f);
+	free_map(game->map_copy);
+	game->map_copy = NULL;
 	return (game->collected_coins == game->total_coins_f && game->exit_found);
 }
