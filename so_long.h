@@ -69,11 +69,10 @@ int			ft_total_coin(char **map);
 
 // enemy_place
 void		place_enemy_center(t_game *game);
-//flood_fill
-char	**ft_map_copy(t_game *game, char **map, int y);
-int	is_map_valid(t_game *game,char **map, int width, int height);
-void	flood_fill(t_game *game, int x, int y);
-
+// flood_fill
+char		**ft_map_copy(t_game *game, char **map, int y);
+int			is_map_valid(t_game *game, char **map, int width, int height);
+void		flood_fill(t_game *game, int x, int y);
 
 // move_player
 void		ft_move_player(int key, int *new_x, int *new_y);
