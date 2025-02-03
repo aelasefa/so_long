@@ -36,35 +36,34 @@ int	ft_total_coin(char **map)
 
 void	animation_coins_ul(t_game *window)
 {
-	int	i;
-	static int count = 0;
-	int	j;
-	if(count % 3000 == 0)
+	static int	count = 0;
+
+	int (i), (j);
+	if (count % 3000 == 0)
 	{
 		window->curr_frames = (window->curr_frames + 1) % 5;
-	i = 0;
-	while (window->map[i])
-	{
-
-		j = 0;
-		while (window->map[i][j])
+		i = 0;
+		while (window->map[i])
 		{
-			if (window->map[i][j] == 'C')
+			j = 0;
+			while (window->map[i][j])
 			{
-				mlx_put_image_to_window(window->mlx_connection, window->mlx_window,window->coin_frames[window->curr_frames],
-					j * 64 + 12, i * 64 + 12);
-
+				if (window->map[i][j] == 'C')
+				{
+					mlx_put_image_to_window(window->mlx_connection,
+						window->mlx_window,
+						window->coin_frames[window->curr_frames], j * 64 + 12, i
+						* 64 + 12);
+				}
+				j++;
 			}
-			j++;
+			i++;
 		}
-		i++;
-	}
 	}
 	count++;
 }
 
-
-int game_loop(t_game *game)
+int	game_loop(t_game *game)
 {
 	animation_coins_ul(game);
 	return (0);
