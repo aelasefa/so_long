@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:04:46 by ayelasef          #+#    #+#             */
-/*   Updated: 2024/11/22 12:36:34 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:52:53 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strchr(char *s, int c)
 char	*ft_strjoin_get_line(char *s1, char *s2)
 {
 	char *(arr);
-	int(i), (j);
+	int (i), (j);
 	if (!s2)
 		return (NULL);
 	if (!s1)
@@ -67,7 +67,7 @@ char	*ft_strjoin_get_line(char *s1, char *s2)
 	while (s2[j])
 		arr[i++] = s2[j++];
 	arr[i] = '\0';
-	return (arr);
+	return (free(s1), arr);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)

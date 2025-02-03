@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 	if (read(fd, 0, 0) == -1)
 	{
 		free(storage);
-		return (storage = NULL);
+		return (storage = NULL, NULL);
 	}
 	storage = ft_read(fd, storage);
 	if (!storage)
