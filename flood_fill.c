@@ -12,9 +12,9 @@
 
 #include "so_long.h"
 
-char	**ft_map_copy(t_game *game,char **map, int y)
+char	**ft_map_copy(t_game *game, char **map, int y)
 {
-	int		i;
+	int	i;
 
 	game->map_copy = malloc(sizeof(char *) * (y + 1));
 	if (!game->map_copy)
@@ -31,7 +31,7 @@ char	**ft_map_copy(t_game *game,char **map, int y)
 
 void	flood_fill(t_game *game, int x, int y)
 {
-	if (!game->map_copy || !game->map_copy[y] || !game->map_copy[y][x] 
+	if (!game->map_copy || !game->map_copy[y] || !game->map_copy[y][x]
 		|| game->map_copy[y][x] == '1' || game->map_copy[y][x] == 'V')
 		return ;
 	if (game->map_copy[y][x] == 'E')
@@ -45,36 +45,39 @@ void	flood_fill(t_game *game, int x, int y)
 	flood_fill(game, x, y + 1);
 }
 
-int	is_map_valid(t_game *game,char **map, int width, int height)
+void	check_player_and_coin(t_game *game, int width, int height)
 {
-	int		exit_found;
-
-	int (x), (y), (player_x), (player_y), (total_coins);
-	player_x = -1;
-	player_y = -1;
-	total_coins = 0;
+	int (x), (y);
 	y = 0;
 	while (y < height)
 	{
 		x = 0;
 		while (x < width)
 		{
-			if (map[y][x] == 'P')
+			if (game->map[y][x] == 'P')
 			{
-				player_x = x;
-				player_y = y;
+				game->player_x_f = x;
+				game->player_y_f = y;
 			}
-			if (map[y][x] == 'C')
-				total_coins++;
+			if (game->map[y][x] == 'C')
+				game->total_coins_f++;
 			x++;
 		}
 		y++;
 	}
-	if (player_x == -1 || player_y == -1)
+}
+
+int	is_map_valid(t_game *game, char **map, int width, int height)
+{
+	game->player_x_f = -1;
+	game->player_y_f = -1;
+	game->total_coins_f = 0;
+	check_player_and_coin(game, width, height);
+	if (game->player_x_f == -1 || game->player_y_f == -1)
 		return (0);
 	game->collected_coins = 0;
 	game->exit_found = 0;
 	game->map_copy = ft_map_copy(game, map, height);
-	flood_fill(game, player_x, player_y);
-	return (game->collected_coins == total_coins && game->exit_found);
+	flood_fill(game, game->player_x_f, game->player_y_f);
+	return (game->collected_coins == game->total_coins_f && game->exit_found);
 }
