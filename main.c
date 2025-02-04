@@ -21,7 +21,6 @@ void	initialize_game(t_game *game, char **map, int map_width, int map_height)
 	image_width = 0;
 	image_height = 0;
 	file_to_image(game, image_width, image_height);
-	place_enemy_center(game);
 	mlx_loop_hook(game->mlx_connection, game_loop, game);
 	ft_change_map_to_images(map, game);
 	mlx_key_hook(game->mlx_window, key_hook, game);
@@ -83,9 +82,22 @@ char	**ft_read_map(int fd)
 
 void	check_ac(int ac, char **av)
 {
+	int	i;
+
 	if (ac != 2)
 	{
-		ft_printf("Error\nUsage: %s <map_file.ber>\n", av[0]);
+		ft_printf("Error\nUsage1: %s <map_file.ber>\n", av[0]);
+		exit(1);
+	}
+	i = ft_strlen(av[1]);
+	if (i <= 4)
+	{
+		ft_printf("Error\nUsage: %s <*.ber>\n", av[0]);
+		exit(1);
+	}
+	if (strncmp(".ber", (av[1] + i) - 4, 4) != 0)
+	{
+		ft_printf("Error\nUsage: %s <*.ber>\n", av[0]);
 		exit(1);
 	}
 }

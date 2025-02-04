@@ -66,7 +66,7 @@ int	key_hook(int key, void *game_ptr, char **map)
 	if (game->map[new_y][new_x] != '1')
 	{
 		ft_collect_coins(game, &new_x, &new_y);
-		if (new_x == game->enemy_x && new_y == game->enemy_y)
+		if (game->map[new_y][new_x] == 'X')
 		{
 			ft_printf("You lose\n");
 			free_game_resources(game);

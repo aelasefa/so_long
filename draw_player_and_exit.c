@@ -30,9 +30,8 @@ void	draw_exit(t_game *game, int x, int y)
 
 int	check_key(int key)
 {
-	if (key == 97 || key == 65361 || key == 100
-		|| key == 65363 || key == 119 || key == 65362
-		|| key == 115 || key == 65364)
+	if (key == 97 || key == 65361 || key == 100 || key == 65363 || key == 119
+		|| key == 65362 || key == 115 || key == 65364)
 	{
 		return (1);
 	}

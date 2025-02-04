@@ -45,6 +45,7 @@ typedef struct s_game
 	char	**map;
 	char	**map_copy;
 	int		exit_found;
+	int		enemy_found;
 	int		player_x_f;
 	int		player_y_f;
 	int		total_coins_f;
