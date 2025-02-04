@@ -52,7 +52,7 @@ void	initialize_values(t_game *game, char **map)
 	i = 0;
 	while (i < 7)
 	{
-		game->coin_frames[i] = "\0";
+		game->coin_frames[i] = NULL;
 		i++;
 	}
 }
@@ -75,6 +75,12 @@ char	**ft_read_map(int fd)
 			line_tmp = tmp;
 		}
 		free(line);
+	}
+	if (line_tmp[0] == '\0')
+	{
+		ft_printf("Error\nemty map\n");
+		free(line_tmp);
+		exit (1);
 	}
 	map = join_arr(line_tmp);
 	return (map);

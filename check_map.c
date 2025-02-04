@@ -54,6 +54,10 @@ int	check_one_component(char **map, char c)
 		{
 			if (map[y][x] == c)
 				count++;
+			else if (map[y][x] == '1')
+				x++;
+			else if (map[y][x] == ' ')
+				return (0);
 			x++;
 		}
 		y++;

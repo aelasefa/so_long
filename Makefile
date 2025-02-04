@@ -7,15 +7,17 @@ SRC:= get_next_line.c get_next_line_utils.c check_map.c \
 
 CC := cc #-g3 -fsanitize=address
 
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g
 
 LIBXFLAGS := -lmlx -lXext -lX11
-#OBJS := $(SRC:.c=.o)
+OBJS := $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(SRC)
 	make -C ft_printf/
 	$(CC) $(SRC) -g $(LIBXFLAGS) ft_printf/libftprintf.a -o $(NAME)
+
+bonus: all
 
 clean :
 	make -C ft_printf fclean

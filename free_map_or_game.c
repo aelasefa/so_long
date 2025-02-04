@@ -29,8 +29,7 @@ void	free_map(char **map)
 
 void	free_game_resources(t_game *game)
 {
-	int	i;
-
+	int (i);
 	i = 0;
 	free_map(game->map);
 	if (game->map_copy)
@@ -47,11 +46,17 @@ void	free_game_resources(t_game *game)
 		mlx_destroy_image(game->mlx_connection, game->image_player);
 	while (i < 7)
 	{
-		if (game->coin_frames[i][0] != '\0')
-			mlx_destroy_image(game->mlx_connection, game->coin_frames[i]);
+		if (game->coin_frames[i])
+		{
+				mlx_destroy_image(game->mlx_connection, game->coin_frames[i]);
+		}
 		i++;
 	}
-	mlx_destroy_window(game->mlx_connection, game->mlx_window);
-	mlx_destroy_display(game->mlx_connection);
-	free(game->mlx_connection);
+	if (game->mlx_window)
+		mlx_destroy_window(game->mlx_connection, game->mlx_window);
+	if (game->mlx_connection)
+	{
+		mlx_destroy_display(game->mlx_connection);
+		free(game->mlx_connection);
+	}
 }

@@ -50,6 +50,7 @@ typedef struct s_game
 	int		player_y_f;
 	int		total_coins_f;
 	int		check_move;
+	// void	*img;
 }			t_game;
 // creat_2d_array
 char		**join_arr(char *line);
