@@ -49,12 +49,10 @@ void	initialize_values(t_game *game, char **map)
 	game->image_player = NULL;
 	game->image_emty_space = NULL;
 	game->image_enemy = NULL;
-	i = 0;
-	while (i < 7)
-	{
-		game->coin_frames[i] = NULL;
-		i++;
-	}
+	game->i = 0;
+	game->j = 0;
+	while (game->j++ < 7)
+		game->coin_frames[game->j] = NULL;
 }
 
 char	**ft_read_map(int fd)

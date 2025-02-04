@@ -35,6 +35,8 @@ typedef struct s_game
 	int		curr_frames;
 	int		map_x;
 	int		map_y;
+	int		i;
+	int		j;
 	char	*coin_frames[7];
 	void	*image_player;
 	void	*image_coin;
