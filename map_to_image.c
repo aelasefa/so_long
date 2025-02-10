@@ -95,7 +95,8 @@ void	ft_change_map_to_images(char **map, t_game *game)
 			else if (game->coin_nbr == game->total_coin)
 			{
 				map[game->exit_y][game->exit_x] = 'E';
-				draw_exit(game, x, y);
+				if (map[y][x] == 'E')
+					draw_exit(game, x, y);
 			}
 			x++;
 		}
