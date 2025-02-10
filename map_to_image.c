@@ -88,10 +88,15 @@ void	ft_change_map_to_images(char **map, t_game *game)
 			else if (map[y][x] == 'P')
 				draw_player(game, x, y);
 			else if (map[y][x] == 'X')
+			{
 				mlx_put_image_to_window(game->mlx_connection, game->mlx_window,
 					game->image_enemy, x * 64, y * 64);
-			else if (map[y][x] == 'E' && game->coin_nbr == game->total_coin)
+			}
+			else if (game->coin_nbr == game->total_coin)
+			{
+				map[game->exit_y][game->exit_x] = 'E';
 				draw_exit(game, x, y);
+			}
 			x++;
 		}
 		y++;
