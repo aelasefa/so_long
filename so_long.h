@@ -14,9 +14,15 @@
 #include "get_next_line.h"
 #include <mlx.h>
 #include <string.h>
-
+#include <time.h>
 typedef struct s_game
 {
+	int	*enemy_x;
+	int	*enemy_y;
+	char move_enemy;
+	int	count_enemy;
+	int	exit_x;
+	int	exit_y;
 	void	*mlx_connection;
 	void	*mlx_window;
 	int		player_x;
@@ -30,13 +36,13 @@ typedef struct s_game
 	int		count_frames;
 	int		moves;
 	int		collected_coins;
-	int		enemy_x;
-	int		enemy_y;
+	int		collected_coins_f;
 	int		curr_frames;
 	int		map_x;
 	int		map_y;
 	int		i;
 	int		j;
+	int		map_flag;
 	char	*coin_frames[7];
 	void	*image_player;
 	void	*image_coin;
@@ -64,10 +70,10 @@ char		*ft_itoa(int n);
 int			animation_coins(t_game *window);
 
 // check_map
-int			check_walls(char **map);
-int			check_all_components(char **map);
+int			check_walls(char **map, t_game *game);
+int			check_all_components(char **map, t_game *game);
 int			check_one_component(char **map, char c);
-int			chaeck_rectangular(char **map);
+int			chaeck_rectangular(char **map, t_game *game);
 
 // coin_animation
 void		animation_coins_ul(t_game *window);
@@ -94,8 +100,16 @@ void		free_game_resources(t_game *game);
 void		free_map(char **map);
 void		file_to_image(t_game *game, int image_width, int image_height);
 
+int	find_exit_y(t_game *game);
+int	find_exit_x(t_game *game);
 // draw_player_and_exit
 void		draw_player(t_game *game, int x, int y);
 void		draw_exit(t_game *game, int x, int y);
 int			check_key(int key);
 void		increment_and_print_move(t_game *game);
+
+//mouve_enemy
+void render_enemies(t_game *game);
+
+int enemy_loop(t_game *game);
+int	ft_count_enemy(char **map);
