@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:56:58 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/11 09:39:48 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:54:02 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	initialize_values_2(t_game *game, char **map)
 	game->count_enemy = ft_count_enemy(map);
 	game->enemy_x = malloc(sizeof(int) * game->count_enemy);
 	if (!game->enemy_x)
-		return;
+		return ;
 	game->enemy_y = malloc(sizeof(int) * game->count_enemy);
 	if (!game->enemy_y)
 		return ;
