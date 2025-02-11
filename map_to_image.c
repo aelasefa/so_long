@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:26:18 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/03 20:52:02 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 08:48:27 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ void	file_to_image(t_game *game, int image_width, int image_height)
 
 void	ft_change_map_to_images(char **map, t_game *game)
 {
-	int (x), (y);
-	y = 0;
+	int (x), (y) = 0;
 	while (map[y])
 	{
 		x = 0;
@@ -88,10 +87,7 @@ void	ft_change_map_to_images(char **map, t_game *game)
 			else if (map[y][x] == 'P')
 				draw_player(game, x, y);
 			else if (map[y][x] == 'X')
-			{
-				mlx_put_image_to_window(game->mlx_connection, game->mlx_window,
-					game->image_enemy, x * 64, y * 64);
-			}
+				draw_enemy(game, x, y);
 			else if (game->coin_nbr == game->total_coin)
 			{
 				map[game->exit_y][game->exit_x] = 'E';
