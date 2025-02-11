@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:30:50 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/03 21:39:03 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:43:26 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,11 @@ void	initialize_game(t_game *game, char **map, int map_width, int map_height)
 	image_width = 0;
 	image_height = 0;
 	file_to_image(game, image_width, image_height);
-	mlx_loop_hook(game->mlx_connection, game_loop, game);
+	mlx_loop_hook(game->mlx_connection, enemy_loop, game);
 	ft_change_map_to_images(map, game);
 	mlx_key_hook(game->mlx_window, key_hook, game);
 	mlx_hook(game->mlx_window, 17, 0, close_window, game);
 	mlx_loop(game->mlx_connection);
-}
-
-void	initialize_values(t_game *game, char **map)
-{
-	int (map_width), map_height, i;
-	map_width = 0;
-	map_height = 0;
-	while (map[map_height])
-		map_height++;
-	map_width = ft_strlen(map[0]) - 1;
-	game->map = map;
-	game->coin_nbr = 0;
-	game->moves = 0;
-	game->map_width = map_width;
-	game->map_height = map_height;
-	game->total_coin = ft_total_coin(map);
-	game->curr_frames = 0;
-	game->check_move = 0;
-	game->image_exit = NULL;
-	game->image_wall = NULL;
-	game->image_player = NULL;
-	game->image_emty_space = NULL;
-	game->image_enemy = NULL;
-	game->i = 0;
-	game->j = 0;
-	while (game->j++ < 7)
-		game->coin_frames[game->j] = NULL;
 }
 
 char	**ft_read_map(int fd)
@@ -78,7 +51,7 @@ char	**ft_read_map(int fd)
 	{
 		ft_printf("Error\nemty map\n");
 		free(line_tmp);
-		exit (1);
+		exit(1);
 	}
 	map = join_arr(line_tmp);
 	return (map);
@@ -120,16 +93,10 @@ int	main(int ac, char **av)
 		ft_printf("Error\n : Cannot open file %s\n", av[1]);
 		exit(1);
 	}
+	map = NULL;
 	map = ft_read_map(fd);
 	initialize_values(&game, map);
-	if (!chaeck_rectangular(map) || !check_all_components(map)
-		|| !check_walls(map) || !is_map_valid(&game, map, game.map_width,
-			game.map_height))
-	{
-		free_map(map);
-		ft_printf("Error\nInvalid map\n");
-		exit(1);
-	}
+	invalid_map(map, &game);
 	initialize_game(&game, map, game.map_width, game.map_height);
 	free_game_resources(&game);
 }
