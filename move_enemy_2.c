@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:24:51 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/11 08:27:33 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:59:00 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ int	ft_count_enemy(char **map)
 		y++;
 	}
 	return (count);
+}
+
+void	free_enemy(t_game *game)
+{
+	if (game->enemy_x)
+		free(game->enemy_x);
+	if (game->enemy_y)
+		free(game->enemy_y);
+	free_map(game->map);
+	free_map(game->map_copy);
 }
 
 char	get_random_move(void)
