@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:51:54 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/11 09:47:03 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:58:01 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int			enemy_loop(t_game *game);
 // move_enmey_2
 int			ft_count_enemy(char **map);
 char		get_random_move(void);
+void		free_enemy(t_game *game);
 // intialize
 
 void		initialize_values_2(t_game *game, char **map);
