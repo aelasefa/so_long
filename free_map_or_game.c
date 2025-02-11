@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:41:07 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/11 09:59:33 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:49:08 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,24 @@ void	free_map_and_print(t_game *game, char **map, char *str)
 
 void	invalid_map(char **map, t_game *game)
 {
+	if (game->map_height > 32 || game->map_width > 60)
+		free_map_and_print(game, map, "fix size of map");
 	if (!chaeck_rectangular(map, game) || !check_all_components(map, game)
 		|| !check_walls(map, game) || !is_map_valid(game, map, game->map_width,
 			game->map_height))
 	{
 		if (game->map_flag == 1)
-			free_map_and_print(game, map, "Error\nmap dosen't rectangular\n");
+			free_map_and_print(game, map,
+				"Error\nThe map is not rectangular\n");
 		else if (game->map_flag == 2)
 			free_map_and_print(game, map,
-				"Error\nmap dosen't have all components\n");
+				"Error\nThe map does not have all required components\n");
 		else if (game->map_flag == 3)
 			free_map_and_print(game, map,
-				"Error\nmap dosen't closed by walls\n");
+				"Error\nThe map is not enclosed by walls\n");
 		else if (game->map_flag == 4)
-			free_map_and_print(game, map, "Error\none components is closed\n");
+			free_map_and_print(game, map,
+				"Error\nOne component is enclosed and inaccessible\n");
 	}
 }
 
