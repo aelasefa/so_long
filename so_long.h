@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:51:54 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/03 22:24:20 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:47:03 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 #include <mlx.h>
 #include <string.h>
 #include <time.h>
+
 typedef struct s_game
 {
-	int	*enemy_x;
-	int	*enemy_y;
-	char move_enemy;
-	int	count_enemy;
-	int	exit_x;
-	int	exit_y;
+	int		*enemy_x;
+	int		*enemy_y;
+	char	move_enemy;
+	int		count_enemy;
+	int		exit_x;
+	int		exit_y;
 	void	*mlx_connection;
 	void	*mlx_window;
 	int		player_x;
@@ -98,18 +99,25 @@ int			close_window(t_game *game);
 // free_map_or_game
 void		free_game_resources(t_game *game);
 void		free_map(char **map);
+void		ft_lose(t_game *game);
+void		free_map_and_print(t_game *game, char **map, char *str);
+void		invalid_map(char **map, t_game *game);
 void		file_to_image(t_game *game, int image_width, int image_height);
-
-int	find_exit_y(t_game *game);
-int	find_exit_x(t_game *game);
 // draw_player_and_exit
 void		draw_player(t_game *game, int x, int y);
 void		draw_exit(t_game *game, int x, int y);
+void		draw_enemy(t_game *game, int x, int y);
 int			check_key(int key);
 void		increment_and_print_move(t_game *game);
 
-//mouve_enemy
-void render_enemies(t_game *game);
+// mouve_enemy
+void		render_enemies(t_game *game);
+int			enemy_loop(t_game *game);
 
-int enemy_loop(t_game *game);
-int	ft_count_enemy(char **map);
+// move_enmey_2
+int			ft_count_enemy(char **map);
+char		get_random_move(void);
+// intialize
+
+void		initialize_values_2(t_game *game, char **map);
+void		initialize_values(t_game *game, char **map);
