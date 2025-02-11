@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:56:58 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/11 09:54:02 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:32:56 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	initialize_values(t_game *game, char **map)
 	game->map_height = 0;
 	game->map_width = map_width;
 	game->map_height = map_height;
+	printf("width :%d, height : %d\n", game->map_width, game->map_height);
 	game->total_coin = ft_total_coin(map);
 	game->curr_frames = 0;
 	game->check_move = 0;
