@@ -39,7 +39,7 @@ void	animation_coins_ul(t_game *window)
 	static int	count = 0;
 
 	int (i), (j);
-	if (count % 3000 == 0)
+	if (count % 30 == 0)
 	{
 		window->curr_frames = (window->curr_frames + 1) % 7;
 		i = 0;
