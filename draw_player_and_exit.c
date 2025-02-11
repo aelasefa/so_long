@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:49:50 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/03 22:31:10 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 08:47:54 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ void	draw_player(t_game *game, int x, int y)
 
 void	draw_exit(t_game *game, int x, int y)
 {
-	game->map_x = x;
-	game->map_y = y;
 	mlx_put_image_to_window(game->mlx_connection, game->mlx_window,
 		game->image_exit, x * 64, y * 64);
+}
+
+void	draw_enemy(t_game *game, int x, int y)
+{
+	mlx_put_image_to_window(game->mlx_connection, game->mlx_window,
+		game->image_enemy, x * 64, y * 64);
 }
 
 int	check_key(int key)
