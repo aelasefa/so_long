@@ -21,7 +21,7 @@ static int	count_line(char *line)
 	count = 0;
 	while (line[i])
 	{
-		if (line[i] == '\n')
+		if (line[i] == '\n' || line[i + 1] == '\0')
 			count++;
 		i++;
 	}
@@ -41,17 +41,17 @@ char	**join_arr(char *line)
 	i = 0;
 	j = 0;
 	index = 0;
-	while (line[i])
+	while (line[i] != '\0')
 	{
 		j = i;
 		while (line[i] != '\n' && line[i])
 			i++;
-		i++;
+		if (line[i] == '\n')
+			i++;
 		arr[index] = malloc(i - j + 1);
 		if (!arr[index])
 			return (NULL);
 		ft_strlcpy(arr[index], line + j, i - j + 1);
-		arr[index][i - j] = '\0';
 		index++;
 	}
 	return (arr[index] = NULL, free(line), arr);
