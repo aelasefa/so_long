@@ -6,7 +6,7 @@
 /*   By: ayelasef <ayelasef@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:41:07 by ayelasef          #+#    #+#             */
-/*   Updated: 2025/02/11 10:49:08 by ayelasef         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:56:18 by ayelasef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	invalid_map(char **map, t_game *game)
 {
 	if (game->map_height > 32 || game->map_width > 60)
 		free_map_and_print(game, map, "fix size of map");
-	if (!chaeck_rectangular(map, game) || !check_all_components(map, game)
+	if (!check_rectangular(map, game) || !check_all_components(map, game)
 		|| !check_walls(map, game) || !is_map_valid(game, map, game->map_width,
-			game->map_height))
+			game->map_height) || !check_map_2(game))
 	{
 		if (game->map_flag == 1)
 			free_map_and_print(game, map,
@@ -41,6 +41,9 @@ void	invalid_map(char **map, t_game *game)
 		else if (game->map_flag == 4)
 			free_map_and_print(game, map,
 				"Error\nOne component is enclosed and inaccessible\n");
+		else if (game->map_flag == 5)
+			free_map_and_print(game, map,
+				"Error\nthe map contains unwanted elements\n");
 	}
 }
 
