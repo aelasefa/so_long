@@ -14,8 +14,6 @@
 
 int	check_rectangular(char **map, t_game *game)
 {
-	char	*last_line;
-
 	size_t (len);
 	size_t (len_last);
 	size_t (len_y);

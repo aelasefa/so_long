@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-char	**ft_map_copy(t_game *game, char **map, int y)
+char	**ft_map_copy(t_game *game, int y)
 {
 	int	i;
 
@@ -71,7 +71,7 @@ void	check_player_and_coin(t_game *game, int width, int height)
 	}
 }
 
-int	is_map_valid(t_game *game, char **map, int width, int height)
+int	is_map_valid(t_game *game, int width, int height)
 {
 	game->player_x_f = -1;
 	game->player_y_f = -1;
@@ -85,7 +85,7 @@ int	is_map_valid(t_game *game, char **map, int width, int height)
 	game->collected_coins = 0;
 	game->exit_found = 0;
 	game->enemy_found = 0;
-	game->map_copy = ft_map_copy(game, map, height);
+	game->map_copy = ft_map_copy(game, height);
 	flood_fill(game, game->player_x_f, game->player_y_f);
 	free_map(game->map_copy);
 	game->map_copy = NULL;

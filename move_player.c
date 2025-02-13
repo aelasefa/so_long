@@ -54,7 +54,7 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-int	key_hook(int key, void *game_ptr, char **map)
+int	key_hook(int key, void *game_ptr)
 {
 	t_game	*game;
 

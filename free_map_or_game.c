@@ -26,7 +26,7 @@ void	invalid_map(char **map, t_game *game)
 	if (game->map_height > 32 || game->map_width > 60)
 		free_map_and_print(game, map, "fix size of map");
 	if (!check_rectangular(map, game) || !check_all_components(map, game)
-		|| !check_walls(map, game) || !is_map_valid(game, map, game->map_width,
+		|| !check_walls(map, game) || !is_map_valid(game, game->map_width,
 			game->map_height) || !check_map_2(game))
 	{
 		if (game->map_flag == 1)

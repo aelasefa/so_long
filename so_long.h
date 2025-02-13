@@ -85,15 +85,15 @@ int			ft_total_coin(char **map);
 // enemy_place
 void		place_enemy_center(t_game *game);
 // flood_fill
-char		**ft_map_copy(t_game *game, char **map, int y);
-int			is_map_valid(t_game *game, char **map, int width, int height);
+char		**ft_map_copy(t_game *game, int y);
+int			is_map_valid(t_game *game, int width, int height);
 void		flood_fill(t_game *game, int x, int y);
 void		check_player_and_coin(t_game *game, int width, int height);
 
 // move_player
 void		ft_move_player(t_game *game, int key, int *new_x, int *new_y);
 void		ft_collect_coins(t_game *game, int *new_x, int *new_y);
-int			key_hook(int key, void *game_ptr, char **map);
+int			key_hook(int key, void *game_ptr);
 void		render_game(t_game *game);
 int			close_window(t_game *game);
 

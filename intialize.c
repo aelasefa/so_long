@@ -62,7 +62,7 @@ void	initialize_values_2(t_game *game, char **map)
 
 void	initialize_values(t_game *game, char **map)
 {
-	int (map_width), map_height, i;
+	int (map_width), map_height;
 	map_width = 0;
 	map_height = 0;
 	while (map[map_height])

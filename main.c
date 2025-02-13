@@ -83,7 +83,6 @@ int	main(int ac, char **av)
 {
 	char	**map;
 	t_game	game;
-	char	**map_copy;
 
 	int (fd);
 	check_ac(ac, av);
