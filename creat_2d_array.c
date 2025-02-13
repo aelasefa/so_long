@@ -56,3 +56,26 @@ char	**join_arr(char *line)
 	}
 	return (arr[index] = NULL, free(line), arr);
 }
+
+int	check_map_2(t_game *game)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] != '0' && game->map[y][x] != 'P'
+				&& game->map[y][x] != '1' && game->map[y][x] != 'E'
+				&& game->map[y][x] != 'C' && game->map[y][x] != '\n'
+				&& game->map[y][x] != 'X')
+				return (game->map_flag = 5, 0);
+			x++;
+		}
+		y++;
+	}
+	return (1);
+}
