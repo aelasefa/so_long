@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int	chaeck_rectangular(char **map, t_game *game)
+int	check_rectangular(char **map, t_game *game)
 {
 	char	*last_line;
 
@@ -26,13 +26,15 @@ int	chaeck_rectangular(char **map, t_game *game)
 	y--;
 	len = ft_strlen(map[0]);
 	len_last = ft_strlen(map[y]);
+	if (map[y][len_last - 1] != '\n')
+		len_last += 1;
 	if (len != len_last)
 		return (game->map_flag = 1, 0);
 	i = 0;
-	while (map[i])
+	while (map[i + 1] != NULL)
 	{
 		len_y = ft_strlen(map[i]);
-		if (ft_strlen(map[0]) != len_y)
+		if (len != len_y)
 			return (game->map_flag = 1, 0);
 		i++;
 	}
@@ -74,10 +76,17 @@ int	check_all_components(char **map, t_game *game)
 	return (1);
 }
 
-void	help_function(int *y, int *x)
+int	help_function(int *y, int *x, char **map, t_game *game)
 {
 	*y = *y - 1;
 	*x = 0;
+	while (map[*y][*x] != '\0')
+	{
+		if (map[*y][*x] != '1')
+			return (game->map_flag = 3, 0);
+		(*x)++;
+	}
+	return (1);
 }
 
 int	check_walls(char **map, t_game *game)
@@ -89,22 +98,22 @@ int	check_walls(char **map, t_game *game)
 	{
 		x = 0;
 		last_of_line = ft_strlen(map[y]) - 2;
-		if (map[y][x++] != '1' || map[y][last_of_line] != '1')
+		if (map[y + 1] == NULL && map[y][last_of_line] != '\n')
+			last_of_line = ft_strlen(map[y]) - 1;
+		if (map[y][0] != '1' || map[y][last_of_line] != '1')
 			return (game->map_flag = 3, 0);
-		while (map[y][x] != '\n')
+		if (y == 0)
 		{
-			if (map[0][x] != '1')
-				return (game->map_flag = 3, 0);
-			x++;
+			while (map[y][x] != '\0')
+			{
+				if (map[y][x] != '1' && map[y][x] != '\n')
+					return (game->map_flag = 3, 0);
+				x++;
+			}
 		}
 		y++;
 	}
-	help_function(&y, &x);
-	while (map[y][x] != '\n')
-	{
-		if (map[y][x] != '1')
-			return (game->map_flag = 3, 0);
-		x++;
-	}
+	if (!help_function(&y, &x, map, game))
+		return (0);
 	return (1);
 }
