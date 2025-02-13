@@ -64,6 +64,7 @@ typedef struct s_game
 // creat_2d_array
 char		**join_arr(char *line);
 void		render_game(t_game *game);
+int			check_map_2(t_game *game);
 // map_to_image
 void		ft_change_map_to_images(char **map, t_game *game);
 // ft_itoa
@@ -74,7 +75,7 @@ int			animation_coins(t_game *window);
 int			check_walls(char **map, t_game *game);
 int			check_all_components(char **map, t_game *game);
 int			check_one_component(char **map, char c);
-int			chaeck_rectangular(char **map, t_game *game);
+int			check_rectangular(char **map, t_game *game);
 
 // coin_animation
 void		animation_coins_ul(t_game *window);
