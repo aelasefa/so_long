@@ -38,6 +38,11 @@ void	flood_fill(t_game *game, int x, int y)
 		game->map_flag = 4;
 		return ;
 	}
+	if (game->map_height == 3 && game->map_copy[y][x] == 'X')
+	{
+		game->map_flag = 4;
+		return ;
+	}
 	if (game->map_copy[y][x] == 'E')
 		game->exit_found = 1;
 	if (game->map_copy[y][x] == 'C')
